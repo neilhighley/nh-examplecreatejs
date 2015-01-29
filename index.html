@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body onload="createJSExample();">
+<canvas id="createjsexample"></canvas>
+<script>
+    function createJSExample() {
+        var canvas = document.getElementById("createjsexample");
+        canvas.width=800;
+        canvas.height=600;
+
+        var stage = new createjs.Stage("createjsexample");
+        stage.enableMouseOver();
+        var balloon=new lib.balloonClip();
+        balloon.x=200;
+        balloon.y=250;
+
+
+        var circle = new createjs.Shape();
+        circle.graphics.beginFill("red").drawCircle(0, 0, 10);
+        circle.x = circle.y = 10;
+        circle.name = "circle";
+        stage.addChild(circle);
+        //pop you!
+        circle.on("click",mouseEventHandler);
+
+        stage.addChild(balloon);
+
+        createjs.Ticker.setFPS(24);
+        createjs.Ticker.addEventListener("tick", drawLoop);
+
+        stage.update();
+
+        function drawLoop() {
+            stage.update();
+        }
+        function mouseEventHandler(evt){
+            if(evt.type=="click"){
+                console.log(balloon.getCurrentLabel());
+                if(balloon.getCurrentLabel()=="pop_end"){
+                    balloon.gotoAndPlay("float_start");
+                }else {
+                    balloon.gotoAndPlay("pop");
+                }
+            }
+        }
+    }
+
+</script>
+<script src="https://code.createjs.com/createjs-2014.12.12.min.js"></script>
+<script src="http://code.createjs.com/movieclip-0.7.0.min.js"></script>
+<script src="balloonAnimation.js"></script>
+</body>
+</html>
